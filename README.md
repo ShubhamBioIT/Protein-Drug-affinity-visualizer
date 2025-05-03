@@ -41,5 +41,5 @@ This is a **Streamlit-based interactive application** for visualizing drug-prote
 1. **Clone the Repository**  
    ```bash
    git clone https://github.com/your-username/bioaffinity-visualizer.git
-   cd bioaffinity-visualizer
+   cd Protein-Drug-affinity-visualizer
 # Protein-Drug-affinity-visualizer
