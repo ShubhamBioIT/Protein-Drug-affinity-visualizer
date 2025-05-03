@@ -106,7 +106,6 @@ if uploaded_file:
 - Identify **potent drug candidates** based on Ki.
 - Analyze **target-ligand selectivity** profiles.
 - Useful for **drug screening**, **lead optimization**, and **machine learning pipeline preparation**.
-- Can be extended to support **regression or classification models** for binding prediction in the future.
 """)
 
 
