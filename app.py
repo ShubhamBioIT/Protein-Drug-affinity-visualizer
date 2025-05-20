@@ -104,7 +104,7 @@ if uploaded_file:
     from mpl_toolkits.mplot3d import Axes3D
     import matplotlib.pyplot as plt
 
-    st.subheader("📡 3D Scatter Plot: Target vs Ki vs Interaction Score (Matplotlib)")
+    st.subheader(" 3D Scatter Plot: Target vs Ki vs Interaction Score (Matplotlib)")
 
     # Clean and sample data
     df_sample = df[['Target Name', 'Ki (nM)', 'Interaction Score']].dropna()
