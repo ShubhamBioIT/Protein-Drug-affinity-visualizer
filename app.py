@@ -39,9 +39,12 @@ if uploaded_file:
 
     df['Interaction Score'] = df['Ki (nM)'].apply(interaction_score)
 
+    
     # --- Display Sample Data ---
     st.subheader("📄 Sample Dataset View")
     st.dataframe(df[['Target Name', 'Ligand SMILES', 'Ki (nM)', 'Interaction Score']].head(20), use_container_width=True)
+
+
 
     # --- Top 10 Targets ---
     st.subheader("🎯 Top 10 Protein Targets by Avg Interaction Score")
@@ -98,6 +101,107 @@ if uploaded_file:
     ax4.grid(True, linestyle='--', alpha=0.6)
     st.pyplot(fig4)
 
+    from mpl_toolkits.mplot3d import Axes3D
+    import matplotlib.pyplot as plt
+
+    st.subheader("📡 3D Scatter Plot: Target vs Ki vs Interaction Score (Matplotlib)")
+
+    # Clean and sample data
+    df_sample = df[['Target Name', 'Ki (nM)', 'Interaction Score']].dropna()
+    df_sample = df_sample.sample(n=50)
+
+    # Encode Target Name
+    df_sample['Target_Num'] = df_sample['Target Name'].astype('category').cat.codes
+
+    fig = plt.figure(figsize=(10, 7))
+    ax = fig.add_subplot(111, projection='3d')
+
+    sc = ax.scatter(
+    df_sample['Target_Num'],
+    df_sample['Ki (nM)'],
+    df_sample['Interaction Score'],
+    c=df_sample['Interaction Score'],
+    cmap='viridis',
+    s=60
+    )
+
+    ax.set_title('Target vs Ki vs Interaction Score (3D)', fontsize=14)
+    ax.set_xlabel('Target (Numeric Code)')
+    ax.set_ylabel('Ki (nM)')
+    ax.set_zlabel('Interaction Score')
+    plt.colorbar(sc, ax=ax, pad=0.1, label='Interaction Score')
+    st.pyplot(fig)
+
+
+    import plotly.express as px
+    import streamlit as st
+
+    st.subheader("🌐 Interactive 3D Scatter Plot: Target vs Ki vs Interaction Score (Plotly)")
+
+    # Sample and clean data
+    df_sample = df[['Target Name', 'Ki (nM)', 'Interaction Score']].dropna()
+    df_sample = df_sample.sample(n=50)
+
+    # Create 3D scatter plot
+    fig3d = px.scatter_3d(
+        df_sample,
+        x='Target Name',
+        y='Ki (nM)',
+        z='Interaction Score',
+        color='Interaction Score',
+        color_continuous_scale=px.colors.sequential.Viridis,
+        size='Interaction Score',
+        hover_name='Target Name',
+        hover_data=['Ki (nM)'],
+        size_max=20,
+        opacity=0.7,
+        title='Interactive 3D Plot of Drug-Target Binding',
+        
+    )
+
+    fig3d.update_layout(
+    paper_bgcolor='aliceblue',
+    plot_bgcolor='white',
+    title_font=dict(size=20, color='black'),
+    margin=dict(l=0, r=0, b=0, t=50),
+    scene=dict(
+        xaxis=dict(
+            title='Target Name',
+            backgroundcolor='white',
+            gridcolor='aqua',
+            zerolinecolor='black',
+        ),
+        yaxis=dict(
+            title='Ki (nM)',
+            backgroundcolor='white',
+            gridcolor='aqua',
+            zerolinecolor='black'
+        ),
+        zaxis=dict(
+            title='Interaction Score',
+            backgroundcolor='white',
+            gridcolor='aqua',
+            zerolinecolor='Black'
+        )
+    ),
+    font=dict(color='black'),
+    coloraxis_colorbar=dict(
+        title='Interaction Score',
+
+        title_font=dict(size=14, color='black'),
+        dtick=dict(size=12, color='black'),
+        tickfont=dict(size=12, color='black'),
+        tickmode='array',
+    )
+)
+
+
+    # Show in Streamlit
+    st.plotly_chart(fig3d, use_container_width=True)
+
+
+
+
     # --- Descriptions and Explanation ---
     st.markdown("""
 ---
@@ -111,7 +215,21 @@ if uploaded_file:
     - Each dot = 1 ligand-protein interaction.
     - Wider spread = more variability in binding.
 - **Histogram**: Helps visualize distribution of all interaction strengths.
+                
+### 🎯 3D Binding Affinity Visualization
 
+- **Axes**:
+  - X-axis: **Target Names** (or encoded IDs)
+  - Y-axis: **Ki (nM)** — Drug affinity (lower is better)
+  - Z-axis: **Interaction Score** — Computed using log-based formula
+
+- **Purpose**:
+  - Explore how different drugs bind to various targets.
+  - Visualize which targets have high or low binding affinity.
+  - Spot **clusters** or **outliers** in interaction strength.
+
+- ✅ Use the **Plotly 3D plot** for interactive zooming and hovering.
+- ✅ Use **Matplotlib 3D plot** for static HD visualization.
 ---
 
 ### 📊 Scoring System – Based on Ki (nM)
