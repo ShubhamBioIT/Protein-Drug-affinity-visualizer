@@ -19,7 +19,11 @@ def download_sample_csv(file_path, download_name):
     return f'<a href="data:file/csv;base64,{b64}" download="{download_name}">📥 Download Sample CSV</a>'
 
 st.sidebar.markdown("### 📘 Help")
-st.sidebar.markdown("Upload a file containing columns: `Target Name`, `Ligand SMILES`, and `Ki (nM)`.")
+st.sidebar.markdown("""
+Ensure your dataset includes:
+- `Target Name`
+- `Ligand SMILES`
+- `Ki (nM)`""")
 st.sidebar.markdown(download_sample_csv('bindingdb_sample.csv', 'bindingdb_sample.csv'), unsafe_allow_html=True)
 
 # --- File Upload ---
