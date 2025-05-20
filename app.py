@@ -132,7 +132,7 @@ if uploaded_file:
     plt.colorbar(sc, ax=ax, pad=0.1, label='Interaction Score')
     st.pyplot(fig)
 
-
+    import plotly
     import plotly.express as px
     import streamlit as st
 
