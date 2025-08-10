@@ -64,8 +64,9 @@ It analyzes **binding affinity scores (Ki values)** and presents clear, interact
    ```bash
    pip install -r requirements.txt
    streamlit run app.py
-
-
+   ```
+# *THANK YOU* 
+   
 
 
 
